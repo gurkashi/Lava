@@ -123,6 +123,8 @@ public class NestedQuery<T,S> extends ExecutionChain<Collection<T>,Collection<S>
     public ExecutionChain<Collection<T>,S> min(Comparator<S> comparator){
         return extend(new Min<S>(comparator));
     }
+	
+	public <U> ExecutionChain<Collection<T>, U> wrap(Selector<Collection<S>, U> wrapper){ return extend(new Wrap<S, U>(wrapper)); }
 
     public ExecutionChain<Collection<T>,Boolean> empty(){
         return extend(new Empty<S>());
