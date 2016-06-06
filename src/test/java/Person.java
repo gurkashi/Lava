@@ -1,7 +1,7 @@
 import lambdas.Selector;
 import org.junit.Test;
 import queries.collections.GroupBy;
-import queries.stracture.NestedQuery;
+import queries.stracture.Queriable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +28,7 @@ public class Person {
         Collection<Person> friends = new ArrayList<Person>();
         friends.add(new Person("dagi", 25));
 
-        Collection<Integer> counts = NestedQuery.create(Person.class).groupBy(new Selector<Person, Integer>() {
+        Collection<Integer> counts = Queriable.create(Person.class).groupBy(new Selector<Person, Integer>() {
             public Integer select(Person value) {
                 return value.age % 4;
             }
@@ -41,7 +41,7 @@ public class Person {
 
         int i = 0;
 
-        /*String firstPersonBigger27 = NestedQuery.create(Person.class)
+        /*String firstPersonBigger27 = Queriable.create(Person.class)
         .where(new Predicate<Person>() {
             public boolean predict(Person value) {
                 return value.age >= 27;

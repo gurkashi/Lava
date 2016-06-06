@@ -7,14 +7,14 @@ import org.junit.Before;
 import org.junit.Test;
 import queries.collections.GroupBy;
 import queries.scalars.Single;
-import queries.stracture.NestedQuery;
+import queries.stracture.Queriable;
 
 import java.util.*;
 
 /**
  * Created by gur on 8/26/2015.
  */
-public class NestedQueryTest {
+public class QueriableTest {
     static Collection<Integer> createRange(int first, int last, int step){
         Collection collection = new ArrayList();
         for (int i = first; i<last; i+= step){
@@ -74,13 +74,13 @@ public class NestedQueryTest {
             input.add(i);
         }
 
-        Collection<Integer> output = NestedQuery.create(Integer.class).execute(input);
+        Collection<Integer> output = Queriable.create(Integer.class).execute(input);
         print(output);
     }
 
     @Test
     public void select() {
-        Collection<Integer> output = NestedQuery.create(Integer.class).select(new Selector<Integer, Integer>() {
+        Collection<Integer> output = Queriable.create(Integer.class).select(new Selector<Integer, Integer>() {
             public Integer select(Integer value) {
                 return value * 2;
             }
@@ -91,7 +91,7 @@ public class NestedQueryTest {
 
     @Test
     public void where() {
-        Collection<Integer> output = NestedQuery.create(Integer.class).where(new Predicate<Integer>() {
+        Collection<Integer> output = Queriable.create(Integer.class).where(new Predicate<Integer>() {
             public boolean predict(Integer value) {
                 return value % 2 == 0;
             }
@@ -102,7 +102,7 @@ public class NestedQueryTest {
 
     @Test
     public void delete() {
-        Collection<Integer> output = NestedQuery.create(Integer.class).delete(new Predicate<Integer>() {
+        Collection<Integer> output = Queriable.create(Integer.class).delete(new Predicate<Integer>() {
             public boolean predict(Integer value) {
                 return value % 2 == 0;
             }
@@ -117,7 +117,7 @@ public class NestedQueryTest {
         this.input.add(3);
         this.input.add(2);
         this.input.add(1);
-        Collection<Integer> output = NestedQuery.create(Integer.class).orderBy(new Comparator<Integer>() {
+        Collection<Integer> output = Queriable.create(Integer.class).orderBy(new Comparator<Integer>() {
             public int compare(Integer a, Integer b) {
                 return a - b;
             }
@@ -132,7 +132,7 @@ public class NestedQueryTest {
         this.input.add(1);
         this.input.add(2);
         this.input.add(3);
-        Collection<Integer> output = NestedQuery.create(Integer.class).reverseOrderBy(new Comparator<Integer>() {
+        Collection<Integer> output = Queriable.create(Integer.class).reverseOrderBy(new Comparator<Integer>() {
             public int compare(Integer a, Integer b) {
                 return a - b;
             }
@@ -152,13 +152,13 @@ public class NestedQueryTest {
         this.input.add(1);
         this.input.add(2);
         this.input.add(2);
-        Collection<Integer> output = NestedQuery.create(Integer.class).distinct().execute(input);
+        Collection<Integer> output = Queriable.create(Integer.class).distinct().execute(input);
         Assert.assertTrue(collectionsEqual(createRange(1, 3, 1), output));
     }
 
     @Test
     public void groupBy(){
-        Collection<GroupBy.Group<Boolean, Integer>> output = NestedQuery.create(Integer.class).groupBy(new Selector<Integer, Boolean>() {
+        Collection<GroupBy.Group<Boolean, Integer>> output = Queriable.create(Integer.class).groupBy(new Selector<Integer, Boolean>() {
             public Boolean select(Integer value) {
                 return value % 2 == 0;
             }
@@ -179,7 +179,7 @@ public class NestedQueryTest {
 
     @Test
     public void count(){
-        Assert.assertEquals(5, (int) NestedQuery.create(Integer.class).count().execute(input));
+        Assert.assertEquals(5, (int) Queriable.create(Integer.class).count().execute(input));
     }
 
     @Test
@@ -208,14 +208,14 @@ public class NestedQueryTest {
             expected.add(i);
         }
 
-        Collection<Integer> result = NestedQuery.create(Integer.class).reverse().execute(input);
+        Collection<Integer> result = Queriable.create(Integer.class).reverse().execute(input);
 
         Assert.assertTrue(collectionsEqual(expected, result));
     }
 
     @Test
     public void copy(){
-        Collection<Person> copy = NestedQuery.create(Person.class).copy().execute(people);
+        Collection<Person> copy = Queriable.create(Person.class).copy().execute(people);
 
         copy.clear();
 
@@ -223,8 +223,8 @@ public class NestedQueryTest {
         Assert.assertEquals(3, people.size());
     }
 
-    private static NestedQuery<Person, Integer> getAges(){
-        return NestedQuery.create(Person.class).orderBy(new Comparator<Person>() {
+    private static Queriable<Person, Integer> getAges(){
+        return Queriable.create(Person.class).orderBy(new Comparator<Person>() {
             public int compare(Person o1, Person o2) {
                 return o1.age - o2.age;
             }
@@ -245,7 +245,7 @@ public class NestedQueryTest {
 
         boolean hadError = false;
         try {
-            NestedQuery.create(Object.class).single().execute(objects);
+            Queriable.create(Object.class).single().execute(objects);
         }
         catch (Single.NoSingleElementException ex){ hadError = true; }
 
@@ -260,7 +260,7 @@ public class NestedQueryTest {
 
         boolean hadError = false;
         try {
-            NestedQuery.create(Object.class).single().execute(objects);
+            Queriable.create(Object.class).single().execute(objects);
         }
         catch (Single.NoSingleElementException ex){ hadError = true; }
 
@@ -272,12 +272,12 @@ public class NestedQueryTest {
         Collection<Object> objects = new ArrayList<Object>();
         objects.add("good");
 
-        NestedQuery.create(Object.class).single().execute(objects);
+        Queriable.create(Object.class).single().execute(objects);
     }
 
     @Test
     public void min(){
-        Assert.assertEquals(0, (int) NestedQuery.create(Integer.class).min(new Comparator<Integer>() {
+        Assert.assertEquals(0, (int) Queriable.create(Integer.class).min(new Comparator<Integer>() {
             public int compare(Integer o1, Integer o2) {
                 return o1.compareTo(o2);
             }
@@ -286,7 +286,7 @@ public class NestedQueryTest {
 
     @Test
     public void max(){
-        Assert.assertEquals(4, (int) NestedQuery.create(Integer.class).max(new Comparator<Integer>() {
+        Assert.assertEquals(4, (int) Queriable.create(Integer.class).max(new Comparator<Integer>() {
             public int compare(Integer o1, Integer o2) {
                 return o1.compareTo(o2);
             }
@@ -296,21 +296,21 @@ public class NestedQueryTest {
 
     @Test
     public void empty_true(){
-        Assert.assertTrue(NestedQuery.create(Integer.class).empty().execute(new ArrayList<Integer>()));
+        Assert.assertTrue(Queriable.create(Integer.class).empty().execute(new ArrayList<Integer>()));
     }
 
     @Test
     public void empty_false(){
-        Assert.assertFalse(NestedQuery.create(Integer.class).empty().execute(input));
+        Assert.assertFalse(Queriable.create(Integer.class).empty().execute(input));
     }
 
     @Test
     public void tail_single_empty(){
-        Assert.assertTrue(NestedQuery.create(Integer.class).tail().execute(createRange(1, 2, 1)).isEmpty());
+        Assert.assertTrue(Queriable.create(Integer.class).tail().execute(createRange(1, 2, 1)).isEmpty());
     }
 
     @Test
     public void tail_collectionOf3_collectionOf2(){
-        Assert.assertTrue(collectionsEqual(createRange(2,4,1), NestedQuery.create(Integer.class).tail().execute(createRange(1,4,1))));
+        Assert.assertTrue(collectionsEqual(createRange(2,4,1), Queriable.create(Integer.class).tail().execute(createRange(1,4,1))));
     }
 }
