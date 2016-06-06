@@ -100,6 +100,8 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
 
     public Queriable<T,S> take(int from, int count){ return extend(new Take<S>(from, count)); }
 
+    public <SI> Queriable<T, SI> flatten(Class<SI> itemType){ return extend(new Flatten<S, SI>()); };
+
     /** scalars **/
 
     public ExecutionChain<Collection<T>,Integer> count(){ return extend(new Count<S>()); }

@@ -68,6 +68,34 @@ public class QueriableTest {
     }
 
     @Test
+    public void flatten(){
+        Collection lst1 = new ArrayList<Integer>();
+        lst1.add(1);
+        lst1.add(2);
+        lst1.add(3);
+        lst1.add(4);
+        lst1.add(5);
+
+        Collection lst2 = new ArrayList<List<Integer>>();
+        List<Integer> sub1 = new ArrayList<Integer>();
+        List<Integer> sub2 = new ArrayList<Integer>();
+        sub1.add(1);
+        sub2.add(2);
+        sub2.add(3);
+        sub2.add(4);
+        sub2.add(5);
+        lst2.add(sub1);
+        lst2.add(sub2);
+
+        Queriable<Collection, Integer> flatten = Queriable.create(Collection.class).flatten(Integer.class);
+
+        Collection<Integer> execute1 = flatten.execute(lst1);
+        Collection<Integer> execute2 = flatten.execute(lst2);
+
+        collectionsEqual(execute1, execute2);
+    }
+
+    @Test
     public void what() {
         Collection<Integer> input = new ArrayList<Integer>();
         for (int i = 1; i <= 5; i++) {
