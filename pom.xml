@@ -6,7 +6,7 @@
 
     <groupId>com.gur.infra</groupId>
     <artifactId>fj</artifactId>
-    <version>master-SNAPSHOT</version>
+    <version>stable</version>
 
     <dependencies>
         <dependency>
