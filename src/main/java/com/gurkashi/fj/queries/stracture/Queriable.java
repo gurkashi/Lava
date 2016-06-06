@@ -123,6 +123,10 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
     public ExecutionChain<Collection<T>,S> min(Comparator<S> comparator){
         return extend(new Min<S>(comparator));
     }
+
+    public ExecutionChain<Collection<T>,S> minOrDefault(Comparator<S> comparator, S defaultValue){
+        return extend(new MinOrDefault<S>(comparator, defaultValue));
+    }
 	
 	public <U> ExecutionChain<Collection<T>, U> wrap(Selector<Collection<S>, U> wrapper){ return extend(new Wrap<S, U>(wrapper)); }
 

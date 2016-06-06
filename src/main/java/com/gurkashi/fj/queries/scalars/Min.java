@@ -25,3 +25,4 @@ public class Min<T> implements ScalarQuery<T,T>{
         return min;
     }
 }
+
