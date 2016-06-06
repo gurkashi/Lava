@@ -1,7 +1,7 @@
-import lambdas.Selector;
+import com.gurkashi.fj.lambdas.Selector;
 import org.junit.Test;
-import queries.collections.GroupBy;
-import queries.stracture.Queriable;
+import com.gurkashi.fj.queries.collections.GroupBy;
+import com.gurkashi.fj.queries.stracture.Queriable;
 
 import java.util.ArrayList;
 import java.util.Collection;

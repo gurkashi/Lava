@@ -1,13 +1,13 @@
 import junit.framework.Assert;
-import lambdas.Accumulator;
-import lambdas.Predicate;
-import lambdas.Selector;
+import com.gurkashi.fj.lambdas.Accumulator;
+import com.gurkashi.fj.lambdas.Predicate;
+import com.gurkashi.fj.lambdas.Selector;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import queries.collections.GroupBy;
-import queries.scalars.Single;
-import queries.stracture.Queriable;
+import com.gurkashi.fj.queries.collections.GroupBy;
+import com.gurkashi.fj.queries.scalars.Single;
+import com.gurkashi.fj.queries.stracture.Queriable;
 
 import java.util.*;
 
