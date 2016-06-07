@@ -129,6 +129,25 @@ public class QueriableTest {
     }
 
     @Test
+    public void groupBy2(){
+        Collection<Person> input = new ArrayList<Person>();
+        input.add(new Person("Muki", 1));
+        input.add(new Person("Shalom", 1));
+        input.add(new Person("Erica", 1));
+        input.add(new Person("Deborah", 1));
+
+        Collection<GroupBy.Group<Integer, Person>> groups = Queriable.create(Person.class)
+                .groupBy(new Selector<Person, Integer>() {
+                    public Integer select(Person value) {
+                        return value.age;
+                    }
+                }).execute(input);
+
+        Assert.assertEquals(1, groups.size());
+        Assert.assertEquals(4, groups.iterator().next().getGroup().size());
+    }
+
+    @Test
     public void delete() {
         Collection<Integer> output = Queriable.create(Integer.class).delete(new Predicate<Integer>() {
             public boolean predict(Integer value) {
