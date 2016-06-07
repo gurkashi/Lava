@@ -25,7 +25,7 @@ public class GroupBy<T,S> implements CollectionQuery<T, GroupBy.Group<S,T>> {
         for (T item: collection){
             S classification = grouper.select(item);
 
-            if (!groups.contains(classification)){
+            if (!groups.containsKey(classification)){
                 groups.put(classification, new Group<S, T>(classification));
             }
             groups.get(classification).add(item);
