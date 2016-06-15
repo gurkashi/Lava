@@ -6,6 +6,7 @@ import com.gurkashi.fj.lambdas.Selector;
 import com.gurkashi.fj.queries.collections.*;
 import com.gurkashi.fj.queries.scalars.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -60,6 +61,19 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
      */
     public <U> ExecutionChain<Collection<T>, U> extend(ScalarQuery<S,U> extension){
         return new ExecutionChain<Collection<T>, U>(this, extension);
+    }
+
+    /**
+     * converts the array into a collection and executes
+     * @param input array of data
+     * @return <see>Queriable.execute(Collection>)</see>
+     */
+    public Collection<S> execute(T[] input){
+        Collection<T> collection = new ArrayList<T>();
+        for (T item: input){
+            collection.add(item);
+        }
+        return execute(collection);
     }
 
     /** collections **/
