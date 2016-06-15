@@ -21,3 +21,4 @@ public class Single<T> implements ScalarQuery<T,T> {
         }
     }
 }
+

@@ -118,6 +118,10 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
         return extend(new Single<S>());
     }
 
+    public ExecutionChain<Collection<T>,S> singleOrNull(){
+        return extend(new SingleOrNull<S>());
+    }
+
     public ExecutionChain<Collection<T>,S> accumulate(S initial, Accumulator<S> accumulator){ return extend(new Accumulation<S>(initial, accumulator)); }
 
     public ExecutionChain<Collection<T>,S> max(Comparator<S> comparator){ return extend(new Max<S>(comparator)); }
