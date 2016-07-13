@@ -108,7 +108,7 @@ public class QueriableTest {
 
     @Test
     public void select() {
-        Collection<Integer> output = Queriable.create(Integer.class).select(new Selector<Integer, Integer>() {
+        Collection<Integer> output = Queriable.create(Integer.class).map(new Selector<Integer, Integer>() {
             public Integer select(Integer value) {
                 return value * 2;
             }
@@ -119,7 +119,7 @@ public class QueriableTest {
 
     @Test
     public void where() {
-        Collection<Integer> output = Queriable.create(Integer.class).where(new Predicate<Integer>() {
+        Collection<Integer> output = Queriable.create(Integer.class).filter(new Predicate<Integer>() {
             public boolean predict(Integer value) {
                 return value % 2 == 0;
             }
@@ -164,7 +164,7 @@ public class QueriableTest {
         this.input.add(3);
         this.input.add(2);
         this.input.add(1);
-        Collection<Integer> output = Queriable.create(Integer.class).orderBy(new Comparator<Integer>() {
+        Collection<Integer> output = Queriable.create(Integer.class).sortBy(new Comparator<Integer>() {
             public int compare(Integer a, Integer b) {
                 return a - b;
             }
@@ -179,7 +179,7 @@ public class QueriableTest {
         this.input.add(1);
         this.input.add(2);
         this.input.add(3);
-        Collection<Integer> output = Queriable.create(Integer.class).reverseOrderBy(new Comparator<Integer>() {
+        Collection<Integer> output = Queriable.create(Integer.class).reverseSortBy(new Comparator<Integer>() {
             public int compare(Integer a, Integer b) {
                 return a - b;
             }
@@ -209,9 +209,10 @@ public class QueriableTest {
             public Boolean select(Integer value) {
                 return value % 2 == 0;
             }
-        }).orderBy(new Comparator<GroupBy.Group<Boolean, Integer>>() {
+        }).sortBy(new Comparator<GroupBy.Group<Boolean, Integer>>() {
             public int compare(GroupBy.Group<Boolean, Integer> o1, GroupBy.Group<Boolean, Integer> o2) {
-                if (o1.getBy()) return -1; else return 1;
+                if (o1.getBy()) return -1;
+                else return 1;
             }
         }).execute(input);
 
@@ -271,7 +272,7 @@ public class QueriableTest {
     }
 
     private static Queriable<Person, Integer> getAges(){
-        return Queriable.create(Person.class).orderBy(new Comparator<Person>() {
+        return Queriable.create(Person.class).sortBy(new Comparator<Person>() {
             public int compare(Person o1, Person o2) {
                 return o1.age - o2.age;
             }
@@ -279,7 +280,7 @@ public class QueriableTest {
             public boolean predict(Person value) {
                 return value.name.equals("roy");
             }
-        }).select(new Selector<Person, Integer>() {
+        }).map(new Selector<Person, Integer>() {
             public Integer select(Person value) {
                 return value.age;
             }

@@ -11,10 +11,10 @@ import java.util.Collection;
  * @param <T> input type
  * @param <S> output type
  */
-public class Select<T,S> implements CollectionQuery<T,S>{
+public class Map<T,S> implements CollectionQuery<T,S>{
     final Selector<T,S> selector;
 
-    public Select(Selector<T,S> selector){
+    public Map(Selector<T, S> selector){
         this.selector = selector;
     }
 

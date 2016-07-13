@@ -8,10 +8,10 @@ import java.util.*;
  * orders the elements in the collection
  * @param <T> type of input
  */
-public class OrderBy<T> implements CollectionQuery<T,T> {
+public class SortBy<T> implements CollectionQuery<T,T> {
     private final Comparator<T> comparator;
 
-    public OrderBy(Comparator<T> comparator){
+    public SortBy(Comparator<T> comparator){
         this.comparator = comparator;
     }
 

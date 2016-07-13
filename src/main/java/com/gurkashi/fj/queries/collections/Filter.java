@@ -11,10 +11,10 @@ import java.util.Collection;
  * only input that passes the predicate (true) will remain in the result
  * @param <T> input type
  */
-public class Where<T> implements CollectionQuery<T,T>{
+public class Filter<T> implements CollectionQuery<T,T>{
     final Predicate<T> predicate;
 
-    public Where(Predicate<T> predicate){
+    public Filter(Predicate<T> predicate){
         this.predicate = predicate;
     }
 

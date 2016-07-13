@@ -32,7 +32,7 @@ public class Person {
             public Integer select(Person value) {
                 return value.age % 4;
             }
-        }).select(new Selector<GroupBy.Group<Integer, Person>, Integer>() {
+        }).map(new Selector<GroupBy.Group<Integer, Person>, Integer>() {
             public Integer select(GroupBy.Group<Integer, Person> value) {
                 return value.getGroup().size();
             }
@@ -42,16 +42,16 @@ public class Person {
         int i = 0;
 
         /*String firstPersonBigger27 = Queriable.create(Person.class)
-        .where(new Predicate<Person>() {
+        .filter(new Predicate<Person>() {
             public boolean predict(Person value) {
                 return value.age >= 27;
             }
-        }).orderBy(new Comparator<Person>() {
+        }).sortBy(new Comparator<Person>() {
                     public int compare(Person o1, Person o2) {
                         return o1.age - o2.age;
                     }
-                }).select(new Selector<Person, String>() {
-                    public String select(Person value) {
+                }).map(new Selector<Person, String>() {
+                    public String map(Person value) {
                         return value.name;
                     }
                 }).first().execute(people);

@@ -3,10 +3,10 @@ package com.gurkashi.fj.queries.scalars;
 import java.util.Collection;
 import java.util.Comparator;
 
-public class MinOrDefault<T> extends Min<T>{
+public class MaxOrDefault<T> extends Max<T>{
     final T defaultValue;
 
-    public MinOrDefault(Comparator<T> comparator, T defaultValue){
+    public MaxOrDefault(Comparator<T> comparator, T defaultValue){
         super(comparator);
         this.defaultValue = defaultValue;
     }
@@ -19,4 +19,3 @@ public class MinOrDefault<T> extends Min<T>{
         return super.execute(collection);
     }
 }
-

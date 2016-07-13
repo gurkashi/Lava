@@ -78,23 +78,23 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
 
     /** collections **/
 
-    public <U> Queriable<T,U> select(Selector<S, U> selector){
-        return extend(new Select<S,U>(selector));
+    public <U> Queriable<T,U> map(Selector<S, U> selector){
+        return extend(new Map<S,U>(selector));
     }
 
-    public Queriable<T,S> where(Predicate<S> predicate){
-        return extend(new Where<S>(predicate));
+    public Queriable<T,S> filter(Predicate<S> predicate){
+        return extend(new Filter<S>(predicate));
     }
 
     public Queriable<T,S> delete(Predicate<S> predicate){
         return extend(new Delete<S>(predicate));
     }
 
-    public Queriable<T,S> orderBy(Comparator<S> comparator){
-        return extend(new OrderBy<S>(comparator));
+    public Queriable<T,S> sortBy(Comparator<S> comparator){
+        return extend(new SortBy<S>(comparator));
     }
 
-    public Queriable<T,S> reverseOrderBy(Comparator<S> comparator){ return extend(new ReverseOrderBy<S>(comparator)); }
+    public Queriable<T,S> reverseSortBy(Comparator<S> comparator){ return extend(new ReverseSortBy<S>(comparator)); }
 
     public Queriable<T,S> reverse(){
         return extend(new Reverse<S>());
@@ -147,8 +147,12 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
     public ExecutionChain<Collection<T>,S> minOrDefault(Comparator<S> comparator, S defaultValue){
         return extend(new MinOrDefault<S>(comparator, defaultValue));
     }
+
+    public ExecutionChain<Collection<T>,S> maxOrDefault(Comparator<S> comparator, S defaultValue){
+        return extend(new MaxOrDefault<S>(comparator, defaultValue));
+    }
 	
-	public <U> ExecutionChain<Collection<T>, U> wrap(Selector<Collection<S>, U> wrapper){ return extend(new Wrap<S, U>(wrapper)); }
+	public <U> ExecutionChain<Collection<T>, U> reduce(Selector<Collection<S>, U> reducer){ return extend(new Reduce<S, U>(reducer)); }
 
     public ExecutionChain<Collection<T>,Boolean> empty(){
         return extend(new Empty<S>());
