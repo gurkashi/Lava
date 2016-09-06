@@ -1,4 +1,4 @@
-# funky-j
+# functional-j
 Functional programming for java
 
 -------------------------------
