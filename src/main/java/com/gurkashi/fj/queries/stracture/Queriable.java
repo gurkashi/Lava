@@ -114,7 +114,9 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
 
     public Queriable<T,S> take(int from, int count){ return extend(new Take<S>(from, count)); }
 
-    public <SI> Queriable<T, SI> flatten(Class<SI> itemType){ return extend(new Flatten<S, SI>()); };
+    public <SI> Queriable<T, SI> flatten(Class<SI> itemType){ return extend(new Flatten<S, SI>()); }
+
+    public Queriable<T, S> intersect(Collection<S> with){ return extend(new Intersect<S>(with)); }
 
     /** scalars **/
 
