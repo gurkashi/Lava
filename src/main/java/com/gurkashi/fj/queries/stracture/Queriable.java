@@ -102,6 +102,10 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
 
     public Queriable<T,S> copy(){ return extend(new Copy<S>()); }
 
+    public <U extends Collection> Queriable<T,S> copyAs(Class<U> collectionType){ return extend(new CopyAs<S, U>(collectionType)); }
+
+    public <U extends Collection<S>> Queriable<T,S> copyTo(U collection){ return extend(new CopyTo<S,U>(collection)); }
+
     public Queriable<T,S> distinct(){
         return extend(new Distinct<S>());
     }
