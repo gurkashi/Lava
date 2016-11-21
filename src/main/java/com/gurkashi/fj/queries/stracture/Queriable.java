@@ -126,6 +126,10 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
         return extend(new First<S>());
     }
 
+    public ExecutionChain<Collection<T>,S> firstOrNull(){
+        return extend(new FirstOrNull<S>());
+    }
+
     public ExecutionChain<Collection<T>,S> last(){
         return extend(new Last<S>());
     }
