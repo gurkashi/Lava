@@ -124,6 +124,10 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
 
     /** scalars **/
 
+    public ExecutionChain<Collection<T>,Boolean> all(Predicate<T> predicate){ return extend(new All(predicate)); }
+
+    public ExecutionChain<Collection<T>,Boolean> exists(Predicate<T> predicate){ return extend(new Exists(predicate)); }
+
     public ExecutionChain<Collection<T>,Integer> count(){ return extend(new Count<S>()); }
 
     public ExecutionChain<Collection<T>,S> first(){
