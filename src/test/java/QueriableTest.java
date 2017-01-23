@@ -361,4 +361,42 @@ public class QueriableTest {
     public void tail_collectionOf3_collectionOf2(){
         Assert.assertTrue(collectionsEqual(createRange(2,4,1), Queriable.create(Integer.class).tail().execute(createRange(1,4,1))));
     }
+
+    @Test
+    public void deleteme(){
+        System.out.println(Queriable.create(Person.class)
+                .sortBy(new Comparator<Person>() {
+                    public int compare(Person o1, Person o2) {
+                        return o1.age - o2.age;
+                    }
+                })
+                .map(new Selector<Person, String>() {
+                    public String select(Person value) {
+                        return value.name;
+                    }
+                })
+                .filter(new Predicate<String>() {
+                    public boolean predict(String value) {
+                        return value.toLowerCase().startsWith("r") || value.toLowerCase().startsWith("m");
+                    }
+                })
+                .firstOrNull()
+                .execute(people));
+    }
+
+    @Test
+    public void permutations(){
+        Queriable.create(Integer.class)
+                .permutations()
+                .map(new Selector<Collection<Integer>, Object>() {
+                    public Object select(Collection<Integer> value) {
+                        for (int i : value){
+                            System.out.print(i + " ");
+                        }
+                        System.out.println();
+                        return null;
+                    }
+                })
+                .execute(input);
+    }
 }

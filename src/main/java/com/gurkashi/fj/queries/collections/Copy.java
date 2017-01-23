@@ -4,6 +4,7 @@ import com.gurkashi.fj.queries.stracture.CollectionQuery;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 
 /**
@@ -18,5 +19,4 @@ public class Copy<T> implements CollectionQuery<T,T> {
         return copy;
     }
 }
-
 

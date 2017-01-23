@@ -18,3 +18,4 @@ public class Last<T> implements ScalarQuery<T,T> {
         return current;
     }
 }
+

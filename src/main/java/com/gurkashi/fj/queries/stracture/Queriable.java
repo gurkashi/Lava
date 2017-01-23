@@ -120,6 +120,8 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
 
     public <SI> Queriable<T, SI> flatten(Class<SI> itemType){ return extend(new Flatten<S, SI>()); }
 
+    public Queriable<T, Collection<T>> permutations() { return extend(new Permutation()); }
+
     public Queriable<T, S> intersect(Collection<S> with){ return extend(new Intersect<S>(with)); }
 
     /** scalars **/
@@ -140,6 +142,10 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
 
     public ExecutionChain<Collection<T>,S> last(){
         return extend(new Last<S>());
+    }
+
+    public ExecutionChain<Collection<T>,S> lastOrNull(){
+        return extend(new LastOrNull<S>());
     }
 
     public ExecutionChain<Collection<T>,S> single(){
