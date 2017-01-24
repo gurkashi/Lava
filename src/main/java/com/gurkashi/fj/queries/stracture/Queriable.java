@@ -124,6 +124,8 @@ public class Queriable<T,S> extends ExecutionChain<Collection<T>,Collection<S>> 
 
     public Queriable<T, S> intersect(Collection<S> with){ return extend(new Intersect<S>(with)); }
 
+    public Queriable<T, S> unify(Collection<S> with){ return extend(new Unify<S>(with)); }
+
     /** scalars **/
 
     public ExecutionChain<Collection<T>,Boolean> all(Predicate<T> predicate){ return extend(new All(predicate)); }
