@@ -1,4 +1,4 @@
-# functional-j
+# Lava
 Functional programming for java
 
 -------------------------------
@@ -17,5 +17,3 @@ Queriable.create(Class<T> type)
 execute(Collection<T> items)
 
 -------------------------------
-
-:)
