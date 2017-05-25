@@ -1,13 +1,13 @@
 import junit.framework.Assert;
-import com.gurkashi.fj.lambdas.Accumulator;
-import com.gurkashi.fj.lambdas.Predicate;
-import com.gurkashi.fj.lambdas.Selector;
+import com.gurkashi.lava.lambdas.Accumulator;
+import com.gurkashi.lava.lambdas.Predicate;
+import com.gurkashi.lava.lambdas.Selector;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import com.gurkashi.fj.queries.collections.GroupBy;
-import com.gurkashi.fj.queries.scalars.Single;
-import com.gurkashi.fj.queries.stracture.Queriable;
+import com.gurkashi.lava.queries.collections.GroupBy;
+import com.gurkashi.lava.queries.scalars.Single;
+import com.gurkashi.lava.queries.stracture.Queriable;
 
 import java.util.*;
 
@@ -385,9 +385,9 @@ public class QueriableTest {
     }
 
     @Test
-    public void permutations(){
+    public void powerSet(){
         Queriable.create(Integer.class)
-                .permutations()
+                .powerSet()
                 .map(new Selector<Collection<Integer>, Object>() {
                     public Object select(Collection<Integer> value) {
                         for (int i : value){
