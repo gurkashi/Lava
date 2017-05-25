@@ -5,10 +5,10 @@ package com.gurkashi.lava.queries.stracture;
  * @param <T> input type
  * @param <S> output type
  */
-public class ExecutionChain<T,S> implements Transformation<T,S>{
+public class Composition<T,S> implements Transformation<T,S>{
     private final Transformation<T,S> chain;
 
-    public <U> ExecutionChain(final Transformation<T,U> before, final Transformation<U,S> step) {
+    public <U> Composition(final Transformation<T,U> before, final Transformation<U,S> step) {
         this.chain = new Transformation<T, S>() {
             public S execute(T input) {
                 return step.execute(before.execute(input));
