@@ -38,23 +38,5 @@ public class Person {
             }
         }).execute(people);
 
-
-        int i = 0;
-
-        /*String firstPersonBigger27 = Queriable.create(Person.class)
-        .filter(new Predicate<Person>() {
-            public boolean predict(Person value) {
-                return value.age >= 27;
-            }
-        }).sortBy(new Comparator<Person>() {
-                    public int compare(Person o1, Person o2) {
-                        return o1.age - o2.age;
-                    }
-                }).map(new Selector<Person, String>() {
-                    public String map(Person value) {
-                        return value.name;
-                    }
-                }).first().execute(people);
-                */
     }
 }

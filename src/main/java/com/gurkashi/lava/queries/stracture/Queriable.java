@@ -16,14 +16,17 @@ import java.util.Comparator;
  * @param <S> type of output of the last step
  */
 public class Queriable<T,S> extends Composition<Collection<T>,Collection<S>> implements CollectionQuery<T,S>{
+    final Collection<T> origin;
+
     /**
      * construct a generic T to S query by separating transformations with a middle type U
      * @param before first transformation from T to U
      * @param step second transformation from U to S
      * @param <U> generic type to concatenate transformations
      */
-    private <U> Queriable(CollectionQuery<T, U> before, CollectionQuery<U, S> step) {
+    private <U> Queriable(CollectionQuery<T, U> before, CollectionQuery<U, S> step, Collection<T> origin) {
         super(before, step);
+        this.origin = origin;
     }
 
     /** creation **/
@@ -39,7 +42,47 @@ public class Queriable<T,S> extends Composition<Collection<T>,Collection<S>> imp
                 return input;
             }
         };
-        return new Queriable<T,T>(id, id);
+        return new Queriable<T,T>(id, id, null);
+    }
+
+    /** creation **/
+    /**
+     * creates a generic query with type T
+     * @param origin the origin collection of data
+     * @param <T> generic type
+     * @return creates a generic query with type T
+     */
+    public static <T> Queriable<T, T> create(Collection<T> origin){
+        final CollectionQuery<T,T> id = new CollectionQuery<T, T>() {
+            public Collection<T> execute(Collection<T> input) {
+                return input;
+            }
+        };
+        return new Queriable<T,T>(id, id, origin);
+    }
+
+
+    /** creation **/
+    /**
+     * creates a generic query with type T
+     * @param origin the origin collection of data
+     * @param <T> generic type
+     * @return creates a generic query with type T
+     */
+    public static <T> Queriable<T, T> create(T[] origin){
+        Collection<T> collection = new ArrayList<T>();
+        for (T item: origin){
+            collection.add(item);
+        }
+
+        return create(collection);
+    }
+
+    /**
+        executed the queries on the origin data collection
+     **/
+    public Collection<S> execute(){
+        return execute(origin);
     }
 
     /**
@@ -49,7 +92,7 @@ public class Queriable<T,S> extends Composition<Collection<T>,Collection<S>> imp
      * @return new chain that will go from T to U
      */
     public <U> Queriable<T,U> extend(CollectionQuery<S,U> extension){
-        return new Queriable<T, U>(this, extension);
+        return new Queriable<T, U>(this, extension, origin);
     }
 
     /**
@@ -59,8 +102,8 @@ public class Queriable<T,S> extends Composition<Collection<T>,Collection<S>> imp
      * @param <U> type of new output
      * @return new chain that will go from T to U
      */
-    public <U> Composition<Collection<T>, U> extend(ScalarQuery<S,U> extension){
-        return new Composition<Collection<T>, U>(this, extension);
+    public <U> QueriableEnd<T, U> extend(ScalarQuery<S,U> extension){
+        return new QueriableEnd<T, U>(this, extension, origin);
     }
 
     /**
@@ -128,55 +171,56 @@ public class Queriable<T,S> extends Composition<Collection<T>,Collection<S>> imp
 
     /** scalars **/
 
-    public Composition<Collection<T>,Boolean> all(Predicate<T> predicate){ return extend(new All(predicate)); }
+    public QueriableEnd<T,Boolean> all(Predicate<T> predicate){ return extend(new All(predicate)); }
 
-    public Composition<Collection<T>,Boolean> exists(Predicate<T> predicate){ return extend(new Exists(predicate)); }
+    public QueriableEnd<T,Boolean> exists(Predicate<T> predicate){ return extend(new Exists(predicate)); }
 
-    public Composition<Collection<T>,Integer> count(){ return extend(new Count<S>()); }
+    public QueriableEnd<T,Integer> count(){ return extend(new Count<S>()); }
 
-    public Composition<Collection<T>,S> first(){
+    public QueriableEnd<T,S> first(){
         return extend(new First<S>());
     }
 
-    public Composition<Collection<T>,S> firstOrNull(){
+    public QueriableEnd<T,S> firstOrNull(){
         return extend(new FirstOrNull<S>());
     }
 
-    public Composition<Collection<T>,S> last(){
+    public QueriableEnd<T,S> last(){
         return extend(new Last<S>());
     }
 
-    public Composition<Collection<T>,S> lastOrNull(){
+    public QueriableEnd<T,S> lastOrNull(){
         return extend(new LastOrNull<S>());
     }
 
-    public Composition<Collection<T>,S> single(){
+    public QueriableEnd<T,S> single(){
         return extend(new Single<S>());
     }
 
-    public Composition<Collection<T>,S> singleOrNull(){
+    public QueriableEnd<T,S> singleOrNull(){
         return extend(new SingleOrNull<S>());
     }
 
-    public Composition<Collection<T>,S> accumulate(S initial, Accumulator<S> accumulator){ return extend(new Accumulation<S>(initial, accumulator)); }
+    public QueriableEnd<T,S> accumulate(S initial, Accumulator<S> accumulator){ return extend(new Accumulation<S>(initial, accumulator)); }
 
-    public Composition<Collection<T>,S> max(Comparator<S> comparator){ return extend(new Max<S>(comparator)); }
+    public QueriableEnd<T,S> max(Comparator<S> comparator){ return extend(new Max<S>(comparator)); }
 
-    public Composition<Collection<T>,S> min(Comparator<S> comparator){
+    public QueriableEnd<T,S> min(Comparator<S> comparator){
         return extend(new Min<S>(comparator));
     }
 
-    public Composition<Collection<T>,S> minOrDefault(Comparator<S> comparator, S defaultValue){
+    public QueriableEnd<T,S> minOrDefault(Comparator<S> comparator, S defaultValue){
         return extend(new MinOrDefault<S>(comparator, defaultValue));
     }
 
-    public Composition<Collection<T>,S> maxOrDefault(Comparator<S> comparator, S defaultValue){
+    public QueriableEnd<T,S> maxOrDefault(Comparator<S> comparator, S defaultValue){
         return extend(new MaxOrDefault<S>(comparator, defaultValue));
     }
 	
-	public <U> Composition<Collection<T>, U> reduce(Selector<Collection<S>, U> reducer){ return extend(new Reduce<S, U>(reducer)); }
+	public <U> QueriableEnd<T, U> reduce(Selector<Collection<S>, U> reducer){ return extend(new Reduce<S, U>(reducer)); }
 
-    public Composition<Collection<T>,Boolean> empty(){
+    public QueriableEnd<T,Boolean> empty(){
         return extend(new Empty<S>());
     }
 }
+

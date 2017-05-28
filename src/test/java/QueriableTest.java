@@ -399,4 +399,16 @@ public class QueriableTest {
                 })
                 .execute(input);
     }
+
+    @Test public void createForCollection(){
+        Integer[] i = {1,2,3};
+
+        print(
+        Queriable.create(i).filter(new Predicate<Integer>() {
+            public boolean predict(Integer value) {
+                return value%2 == 1;
+            }
+        })
+        .execute());
+    }
 }
